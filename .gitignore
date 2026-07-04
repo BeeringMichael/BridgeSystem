@@ -12,4 +12,4 @@ dist/
 *.egg-info/
 
 # VS Code settings
-.vscode/
+# (Workspace settings are tracked)
