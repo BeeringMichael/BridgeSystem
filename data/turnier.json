@@ -1,0 +1,1282 @@
+{
+  "name": "Turnier",
+  "boards": [
+    {
+      "board_nr": 0,
+      "dealer": "Nord",
+      "vulnerable_sides": "keiner",
+      "best_contract": "1C x NS -7 / -1300",
+      "hands": {
+        "N": {
+          "player": "Nord",
+          "spades": [
+            "\u2660A",
+            "\u2660D",
+            "\u2660B",
+            "\u26608"
+          ],
+          "hearts": [
+            "\u26659",
+            "\u26658",
+            "\u26657",
+            "\u26654"
+          ],
+          "diamonds": [
+            "\u2666Z",
+            "\u26667"
+          ],
+          "clubs": [
+            "\u2663K",
+            "\u26637",
+            "\u26634"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "4-4-2-3"
+        },
+        "E": {
+          "player": "Ost",
+          "spades": [
+            "\u2660K",
+            "\u26607",
+            "\u26605",
+            "\u26602"
+          ],
+          "hearts": [
+            "\u2665K",
+            "\u26656",
+            "\u26653",
+            "\u26652"
+          ],
+          "diamonds": [
+            "\u2666A",
+            "\u2666D",
+            "\u26665"
+          ],
+          "clubs": [
+            "\u2663B",
+            "\u26639"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "4-4-3-2"
+        },
+        "S": {
+          "player": "Sued",
+          "spades": [
+            "\u26604"
+          ],
+          "hearts": [
+            "\u2665Z"
+          ],
+          "diamonds": [
+            "\u2666B",
+            "\u26669",
+            "\u26666",
+            "\u26664",
+            "\u26663",
+            "\u26662"
+          ],
+          "clubs": [
+            "\u2663A",
+            "\u2663D",
+            "\u26635",
+            "\u26633",
+            "\u26632"
+          ],
+          "pattern": "6-5-1-1",
+          "distribution": "1-1-6-5"
+        },
+        "W": {
+          "player": "West",
+          "spades": [
+            "\u2660Z",
+            "\u26609",
+            "\u26606",
+            "\u26603"
+          ],
+          "hearts": [
+            "\u2665A",
+            "\u2665D",
+            "\u2665B",
+            "\u26655"
+          ],
+          "diamonds": [
+            "\u2666K",
+            "\u26668"
+          ],
+          "clubs": [
+            "\u2663Z",
+            "\u26638",
+            "\u26636"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "4-4-2-3"
+        }
+      },
+      "double_dummy": {
+        "north_south": {
+          "spades": 5,
+          "hearts": 4,
+          "diamonds": 9,
+          "clubs": 9,
+          "sans": 6
+        },
+        "east_west": {
+          "spades": 8,
+          "hearts": 8,
+          "diamonds": 3,
+          "clubs": 4,
+          "sans": 7
+        }
+      }
+    },
+    {
+      "board_nr": 1,
+      "dealer": "Ost",
+      "vulnerable_sides": " N--S ",
+      "best_contract": "1C x EW -7 / -1300",
+      "hands": {
+        "N": {
+          "player": "Nord",
+          "spades": [
+            "\u26607"
+          ],
+          "hearts": [
+            "\u2665A",
+            "\u26659",
+            "\u26653",
+            "\u26652"
+          ],
+          "diamonds": [
+            "\u2666Z",
+            "\u26666",
+            "\u26663"
+          ],
+          "clubs": [
+            "\u2663A",
+            "\u2663D",
+            "\u26638",
+            "\u26635",
+            "\u26634"
+          ],
+          "pattern": "5-4-3-1",
+          "distribution": "1-4-3-5"
+        },
+        "E": {
+          "player": "Ost",
+          "spades": [
+            "\u2660D",
+            "\u26608",
+            "\u26606"
+          ],
+          "hearts": [
+            "\u2665K",
+            "\u2665B",
+            "\u26655"
+          ],
+          "diamonds": [
+            "\u2666K",
+            "\u26668",
+            "\u26667",
+            "\u26664"
+          ],
+          "clubs": [
+            "\u2663K",
+            "\u26636",
+            "\u26633"
+          ],
+          "pattern": "4-3-3-3",
+          "distribution": "3-3-4-3"
+        },
+        "S": {
+          "player": "Sued",
+          "spades": [
+            "\u2660K",
+            "\u2660B",
+            "\u26605",
+            "\u26603",
+            "\u26602"
+          ],
+          "hearts": [
+            "\u2665D",
+            "\u26658",
+            "\u26657"
+          ],
+          "diamonds": [
+            "\u2666D",
+            "\u26665",
+            "\u26662"
+          ],
+          "clubs": [
+            "\u26639",
+            "\u26637"
+          ],
+          "pattern": "5-3-3-2",
+          "distribution": "5-3-3-2"
+        },
+        "W": {
+          "player": "West",
+          "spades": [
+            "\u2660A",
+            "\u2660Z",
+            "\u26609",
+            "\u26604"
+          ],
+          "hearts": [
+            "\u2665Z",
+            "\u26656",
+            "\u26654"
+          ],
+          "diamonds": [
+            "\u2666A",
+            "\u2666B",
+            "\u26669"
+          ],
+          "clubs": [
+            "\u2663B",
+            "\u2663Z",
+            "\u26632"
+          ],
+          "pattern": "4-3-3-3",
+          "distribution": "4-3-3-3"
+        }
+      },
+      "double_dummy": {
+        "north_south": {
+          "spades": 8,
+          "hearts": 7,
+          "diamonds": 8,
+          "clubs": 7,
+          "sans": 8
+        },
+        "east_west": {
+          "spades": 5,
+          "hearts": 6,
+          "diamonds": 4,
+          "clubs": 6,
+          "sans": 4
+        }
+      }
+    },
+    {
+      "board_nr": 2,
+      "dealer": "Sued",
+      "vulnerable_sides": " O--W ",
+      "best_contract": "1C x NS -7 / -1300",
+      "hands": {
+        "N": {
+          "player": "Nord",
+          "spades": [
+            "\u2660K",
+            "\u26609",
+            "\u26602"
+          ],
+          "hearts": [
+            "\u2665D",
+            "\u2665Z"
+          ],
+          "diamonds": [
+            "\u2666A",
+            "\u2666Z",
+            "\u26666",
+            "\u26665",
+            "\u26664",
+            "\u26662"
+          ],
+          "clubs": [
+            "\u2663B",
+            "\u26634"
+          ],
+          "pattern": "6-3-2-2",
+          "distribution": "3-2-6-2"
+        },
+        "E": {
+          "player": "Ost",
+          "spades": [
+            "\u2660Z",
+            "\u26608",
+            "\u26607"
+          ],
+          "hearts": [
+            "\u2665B",
+            "\u26657",
+            "\u26655",
+            "\u26653"
+          ],
+          "diamonds": [
+            "\u2666K",
+            "\u2666D",
+            "\u2666B",
+            "\u26667"
+          ],
+          "clubs": [
+            "\u2663K",
+            "\u26638"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "3-4-4-2"
+        },
+        "S": {
+          "player": "Sued",
+          "spades": [
+            "\u2660D",
+            "\u2660B",
+            "\u26605",
+            "\u26603"
+          ],
+          "hearts": [
+            "\u2665K",
+            "\u26659",
+            "\u26658",
+            "\u26654"
+          ],
+          "diamonds": [
+            "\u26663"
+          ],
+          "clubs": [
+            "\u2663D",
+            "\u2663Z",
+            "\u26637",
+            "\u26633"
+          ],
+          "pattern": "4-4-4-1",
+          "distribution": "4-4-1-4"
+        },
+        "W": {
+          "player": "West",
+          "spades": [
+            "\u2660A",
+            "\u26606",
+            "\u26604"
+          ],
+          "hearts": [
+            "\u2665A",
+            "\u26656",
+            "\u26652"
+          ],
+          "diamonds": [
+            "\u26669",
+            "\u26668"
+          ],
+          "clubs": [
+            "\u2663A",
+            "\u26639",
+            "\u26636",
+            "\u26635",
+            "\u26632"
+          ],
+          "pattern": "5-3-3-2",
+          "distribution": "3-3-2-5"
+        }
+      },
+      "double_dummy": {
+        "north_south": {
+          "spades": 7,
+          "hearts": 6,
+          "diamonds": 6,
+          "clubs": 6,
+          "sans": 6
+        },
+        "east_west": {
+          "spades": 6,
+          "hearts": 7,
+          "diamonds": 7,
+          "clubs": 6,
+          "sans": 7
+        }
+      }
+    },
+    {
+      "board_nr": 3,
+      "dealer": "West",
+      "vulnerable_sides": "alle",
+      "best_contract": "1C x NS -7 / -2000",
+      "hands": {
+        "N": {
+          "player": "Nord",
+          "spades": [
+            "\u26605",
+            "\u26602"
+          ],
+          "hearts": [
+            "\u2665A",
+            "\u26659",
+            "\u26658",
+            "\u26654",
+            "\u26653"
+          ],
+          "diamonds": [
+            "\u2666D",
+            "\u26669"
+          ],
+          "clubs": [
+            "\u2663K",
+            "\u2663D",
+            "\u2663B",
+            "\u2663Z"
+          ],
+          "pattern": "5-4-2-2",
+          "distribution": "2-5-2-4"
+        },
+        "E": {
+          "player": "Ost",
+          "spades": [
+            "\u26606",
+            "\u26604",
+            "\u26603"
+          ],
+          "hearts": [
+            "\u26655"
+          ],
+          "diamonds": [
+            "\u2666K",
+            "\u26666",
+            "\u26665",
+            "\u26664",
+            "\u26662"
+          ],
+          "clubs": [
+            "\u2663A",
+            "\u26636",
+            "\u26634",
+            "\u26632"
+          ],
+          "pattern": "5-4-3-1",
+          "distribution": "3-1-5-4"
+        },
+        "S": {
+          "player": "Sued",
+          "spades": [
+            "\u2660A",
+            "\u2660K",
+            "\u2660D",
+            "\u26609",
+            "\u26608"
+          ],
+          "hearts": [
+            "\u2665K",
+            "\u2665B",
+            "\u26652"
+          ],
+          "diamonds": [
+            "\u2666A",
+            "\u2666B",
+            "\u2666Z",
+            "\u26667"
+          ],
+          "clubs": [
+            "\u26637"
+          ],
+          "pattern": "5-4-3-1",
+          "distribution": "5-3-4-1"
+        },
+        "W": {
+          "player": "West",
+          "spades": [
+            "\u2660B",
+            "\u2660Z",
+            "\u26607"
+          ],
+          "hearts": [
+            "\u2665D",
+            "\u2665Z",
+            "\u26657",
+            "\u26656"
+          ],
+          "diamonds": [
+            "\u26668",
+            "\u26663"
+          ],
+          "clubs": [
+            "\u26639",
+            "\u26638",
+            "\u26635",
+            "\u26633"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "3-4-2-4"
+        }
+      },
+      "double_dummy": {
+        "north_south": {
+          "spades": 1,
+          "hearts": 2,
+          "diamonds": 2,
+          "clubs": 1,
+          "sans": 1
+        },
+        "east_west": {
+          "spades": 12,
+          "hearts": 11,
+          "diamonds": 11,
+          "clubs": 12,
+          "sans": 12
+        }
+      }
+    },
+    {
+      "board_nr": 4,
+      "dealer": "Nord",
+      "vulnerable_sides": "keiner",
+      "best_contract": "1C x NS -7 / -1300",
+      "hands": {
+        "N": {
+          "player": "Nord",
+          "spades": [
+            "\u2660K",
+            "\u2660D",
+            "\u26603"
+          ],
+          "hearts": [
+            "\u2665K",
+            "\u2665D",
+            "\u26653"
+          ],
+          "diamonds": [
+            "\u2666K",
+            "\u2666Z",
+            "\u26664"
+          ],
+          "clubs": [
+            "\u2663A",
+            "\u2663D",
+            "\u2663B",
+            "\u26639"
+          ],
+          "pattern": "4-3-3-3",
+          "distribution": "3-3-3-4"
+        },
+        "E": {
+          "player": "Ost",
+          "spades": [
+            "\u26607",
+            "\u26606",
+            "\u26602"
+          ],
+          "hearts": [
+            "\u26652"
+          ],
+          "diamonds": [
+            "\u2666A",
+            "\u26667",
+            "\u26666",
+            "\u26662"
+          ],
+          "clubs": [
+            "\u2663Z",
+            "\u26638",
+            "\u26635",
+            "\u26634",
+            "\u26633"
+          ],
+          "pattern": "5-4-3-1",
+          "distribution": "3-1-4-5"
+        },
+        "S": {
+          "player": "Sued",
+          "spades": [
+            "\u2660A",
+            "\u2660B",
+            "\u2660Z",
+            "\u26605"
+          ],
+          "hearts": [
+            "\u2665Z",
+            "\u26658",
+            "\u26657",
+            "\u26656",
+            "\u26654"
+          ],
+          "diamonds": [
+            "\u2666B",
+            "\u26669",
+            "\u26668"
+          ],
+          "clubs": [
+            "\u2663K"
+          ],
+          "pattern": "5-4-3-1",
+          "distribution": "4-5-3-1"
+        },
+        "W": {
+          "player": "West",
+          "spades": [
+            "\u26609",
+            "\u26608",
+            "\u26604"
+          ],
+          "hearts": [
+            "\u2665A",
+            "\u2665B",
+            "\u26659",
+            "\u26655"
+          ],
+          "diamonds": [
+            "\u2666D",
+            "\u26665",
+            "\u26663"
+          ],
+          "clubs": [
+            "\u26637",
+            "\u26636",
+            "\u26632"
+          ],
+          "pattern": "4-3-3-3",
+          "distribution": "3-4-3-3"
+        }
+      },
+      "double_dummy": {
+        "north_south": {
+          "spades": 10,
+          "hearts": 10,
+          "diamonds": 10,
+          "clubs": 9,
+          "sans": 11
+        },
+        "east_west": {
+          "spades": 2,
+          "hearts": 2,
+          "diamonds": 3,
+          "clubs": 3,
+          "sans": 2
+        }
+      }
+    },
+    {
+      "board_nr": 5,
+      "dealer": "Ost",
+      "vulnerable_sides": " N--S ",
+      "best_contract": "1C x EW -7 / -1300",
+      "hands": {
+        "N": {
+          "player": "Nord",
+          "spades": [
+            "\u2660Z",
+            "\u26609",
+            "\u26608",
+            "\u26605"
+          ],
+          "hearts": [],
+          "diamonds": [
+            "\u2666K",
+            "\u26669",
+            "\u26666",
+            "\u26663"
+          ],
+          "clubs": [
+            "\u2663Z",
+            "\u26639",
+            "\u26635",
+            "\u26634",
+            "\u26632"
+          ],
+          "pattern": "5-4-4-0",
+          "distribution": "4-0-4-5"
+        },
+        "E": {
+          "player": "Ost",
+          "spades": [
+            "\u2660A",
+            "\u2660B",
+            "\u26607",
+            "\u26606",
+            "\u26604",
+            "\u26603",
+            "\u26602"
+          ],
+          "hearts": [
+            "\u2665A",
+            "\u2665D",
+            "\u26658",
+            "\u26653",
+            "\u26652"
+          ],
+          "diamonds": [
+            "\u26668"
+          ],
+          "clubs": [],
+          "pattern": "7-5-1-0",
+          "distribution": "7-5-1-0"
+        },
+        "S": {
+          "player": "Sued",
+          "spades": [
+            "\u2660K",
+            "\u2660D"
+          ],
+          "hearts": [
+            "\u2665K",
+            "\u26657",
+            "\u26656",
+            "\u26654"
+          ],
+          "diamonds": [
+            "\u2666A",
+            "\u2666Z",
+            "\u26667",
+            "\u26665",
+            "\u26662"
+          ],
+          "clubs": [
+            "\u2663D",
+            "\u26633"
+          ],
+          "pattern": "5-4-2-2",
+          "distribution": "2-4-5-2"
+        },
+        "W": {
+          "player": "West",
+          "spades": [],
+          "hearts": [
+            "\u2665B",
+            "\u2665Z",
+            "\u26659",
+            "\u26655"
+          ],
+          "diamonds": [
+            "\u2666D",
+            "\u2666B",
+            "\u26664"
+          ],
+          "clubs": [
+            "\u2663A",
+            "\u2663K",
+            "\u2663B",
+            "\u26638",
+            "\u26637",
+            "\u26636"
+          ],
+          "pattern": "6-4-3-0",
+          "distribution": "0-4-3-6"
+        }
+      },
+      "double_dummy": {
+        "north_south": {
+          "spades": 8,
+          "hearts": 11,
+          "diamonds": 5,
+          "clubs": 8,
+          "sans": 8
+        },
+        "east_west": {
+          "spades": 5,
+          "hearts": 2,
+          "diamonds": 8,
+          "clubs": 5,
+          "sans": 4
+        }
+      }
+    },
+    {
+      "board_nr": 6,
+      "dealer": "Sued",
+      "vulnerable_sides": " O--W ",
+      "best_contract": "1C x NS -7 / -1300",
+      "hands": {
+        "N": {
+          "player": "Nord",
+          "spades": [
+            "\u26608",
+            "\u26602"
+          ],
+          "hearts": [
+            "\u26658",
+            "\u26654"
+          ],
+          "diamonds": [
+            "\u2666K",
+            "\u26666",
+            "\u26665",
+            "\u26664",
+            "\u26662"
+          ],
+          "clubs": [
+            "\u26638",
+            "\u26637",
+            "\u26636",
+            "\u26633"
+          ],
+          "pattern": "5-4-2-2",
+          "distribution": "2-2-5-4"
+        },
+        "E": {
+          "player": "Ost",
+          "spades": [
+            "\u2660A",
+            "\u2660B",
+            "\u2660Z",
+            "\u26606",
+            "\u26604"
+          ],
+          "hearts": [
+            "\u2665A",
+            "\u26655"
+          ],
+          "diamonds": [
+            "\u2666A",
+            "\u2666Z"
+          ],
+          "clubs": [
+            "\u2663D",
+            "\u2663Z",
+            "\u26635",
+            "\u26634"
+          ],
+          "pattern": "5-4-2-2",
+          "distribution": "5-2-2-4"
+        },
+        "S": {
+          "player": "Sued",
+          "spades": [
+            "\u2660D",
+            "\u26607"
+          ],
+          "hearts": [
+            "\u2665Z",
+            "\u26659",
+            "\u26652"
+          ],
+          "diamonds": [
+            "\u2666D",
+            "\u2666B",
+            "\u26669",
+            "\u26668"
+          ],
+          "clubs": [
+            "\u2663A",
+            "\u2663K",
+            "\u2663B",
+            "\u26632"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "2-3-4-4"
+        },
+        "W": {
+          "player": "West",
+          "spades": [
+            "\u2660K",
+            "\u26609",
+            "\u26605",
+            "\u26603"
+          ],
+          "hearts": [
+            "\u2665K",
+            "\u2665D",
+            "\u2665B",
+            "\u26657",
+            "\u26656",
+            "\u26653"
+          ],
+          "diamonds": [
+            "\u26667",
+            "\u26663"
+          ],
+          "clubs": [
+            "\u26639"
+          ],
+          "pattern": "6-4-2-1",
+          "distribution": "4-6-2-1"
+        }
+      },
+      "double_dummy": {
+        "north_south": {
+          "spades": 1,
+          "hearts": 1,
+          "diamonds": 7,
+          "clubs": 7,
+          "sans": 1
+        },
+        "east_west": {
+          "spades": 12,
+          "hearts": 12,
+          "diamonds": 6,
+          "clubs": 6,
+          "sans": 11
+        }
+      }
+    },
+    {
+      "board_nr": 7,
+      "dealer": "West",
+      "vulnerable_sides": "alle",
+      "best_contract": "1C x NS -7 / -2000",
+      "hands": {
+        "N": {
+          "player": "Nord",
+          "spades": [
+            "\u26608",
+            "\u26606"
+          ],
+          "hearts": [
+            "\u2665Z",
+            "\u26656",
+            "\u26655",
+            "\u26654"
+          ],
+          "diamonds": [
+            "\u2666K",
+            "\u2666D",
+            "\u26669",
+            "\u26668",
+            "\u26666",
+            "\u26663"
+          ],
+          "clubs": [
+            "\u2663K"
+          ],
+          "pattern": "6-4-2-1",
+          "distribution": "2-4-6-1"
+        },
+        "E": {
+          "player": "Ost",
+          "spades": [
+            "\u2660A",
+            "\u2660B",
+            "\u26607",
+            "\u26605"
+          ],
+          "hearts": [
+            "\u2665A",
+            "\u2665K",
+            "\u26659",
+            "\u26657"
+          ],
+          "diamonds": [
+            "\u2666A",
+            "\u2666Z"
+          ],
+          "clubs": [
+            "\u26638",
+            "\u26637",
+            "\u26632"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "4-4-2-3"
+        },
+        "S": {
+          "player": "Sued",
+          "spades": [
+            "\u2660D",
+            "\u2660Z",
+            "\u26604",
+            "\u26603"
+          ],
+          "hearts": [
+            "\u2665B",
+            "\u26658",
+            "\u26653",
+            "\u26652"
+          ],
+          "diamonds": [
+            "\u2666B"
+          ],
+          "clubs": [
+            "\u2663B",
+            "\u2663Z",
+            "\u26639",
+            "\u26636"
+          ],
+          "pattern": "4-4-4-1",
+          "distribution": "4-4-1-4"
+        },
+        "W": {
+          "player": "West",
+          "spades": [
+            "\u2660K",
+            "\u26609",
+            "\u26602"
+          ],
+          "hearts": [
+            "\u2665D"
+          ],
+          "diamonds": [
+            "\u26667",
+            "\u26665",
+            "\u26664",
+            "\u26662"
+          ],
+          "clubs": [
+            "\u2663A",
+            "\u2663D",
+            "\u26635",
+            "\u26634",
+            "\u26633"
+          ],
+          "pattern": "5-4-3-1",
+          "distribution": "3-1-4-5"
+        }
+      },
+      "double_dummy": {
+        "north_south": {
+          "spades": 10,
+          "hearts": 8,
+          "diamonds": 8,
+          "clubs": 10,
+          "sans": 10
+        },
+        "east_west": {
+          "spades": 3,
+          "hearts": 4,
+          "diamonds": 5,
+          "clubs": 3,
+          "sans": 3
+        }
+      }
+    },
+    {
+      "board_nr": 8,
+      "dealer": "Nord",
+      "vulnerable_sides": "keiner",
+      "best_contract": "1C x NS -7 / -1300",
+      "hands": {
+        "N": {
+          "player": "Nord",
+          "spades": [
+            "\u2660A",
+            "\u26608",
+            "\u26603"
+          ],
+          "hearts": [
+            "\u2665D",
+            "\u26654"
+          ],
+          "diamonds": [
+            "\u2666A",
+            "\u26666",
+            "\u26663",
+            "\u26662"
+          ],
+          "clubs": [
+            "\u2663A",
+            "\u2663D",
+            "\u2663B",
+            "\u2663Z"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "3-2-4-4"
+        },
+        "E": {
+          "player": "Ost",
+          "spades": [
+            "\u2660D",
+            "\u2660B",
+            "\u26609"
+          ],
+          "hearts": [
+            "\u2665K",
+            "\u26656"
+          ],
+          "diamonds": [
+            "\u2666D",
+            "\u2666Z",
+            "\u26665",
+            "\u26664"
+          ],
+          "clubs": [
+            "\u26638",
+            "\u26637",
+            "\u26634",
+            "\u26632"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "3-2-4-4"
+        },
+        "S": {
+          "player": "Sued",
+          "spades": [
+            "\u2660K",
+            "\u26606",
+            "\u26605"
+          ],
+          "hearts": [
+            "\u2665A",
+            "\u2665B",
+            "\u2665Z",
+            "\u26659",
+            "\u26655",
+            "\u26653",
+            "\u26652"
+          ],
+          "diamonds": [
+            "\u2666K",
+            "\u26669"
+          ],
+          "clubs": [
+            "\u2663K"
+          ],
+          "pattern": "7-3-2-1",
+          "distribution": "3-7-2-1"
+        },
+        "W": {
+          "player": "West",
+          "spades": [
+            "\u2660Z",
+            "\u26607",
+            "\u26604",
+            "\u26602"
+          ],
+          "hearts": [
+            "\u26658",
+            "\u26657"
+          ],
+          "diamonds": [
+            "\u2666B",
+            "\u26668",
+            "\u26667"
+          ],
+          "clubs": [
+            "\u26639",
+            "\u26636",
+            "\u26635",
+            "\u26633"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "4-2-3-4"
+        }
+      },
+      "double_dummy": {
+        "north_south": {
+          "spades": 11,
+          "hearts": 13,
+          "diamonds": 11,
+          "clubs": 13,
+          "sans": 13
+        },
+        "east_west": {
+          "spades": 2,
+          "hearts": 0,
+          "diamonds": 2,
+          "clubs": 0,
+          "sans": 0
+        }
+      }
+    },
+    {
+      "board_nr": 9,
+      "dealer": "Ost",
+      "vulnerable_sides": " N--S ",
+      "best_contract": "1C x EW -7 / -1300",
+      "hands": {
+        "N": {
+          "player": "Nord",
+          "spades": [
+            "\u2660A",
+            "\u2660Z",
+            "\u26609",
+            "\u26608",
+            "\u26602"
+          ],
+          "hearts": [
+            "\u2665A",
+            "\u2665K",
+            "\u26656"
+          ],
+          "diamonds": [
+            "\u2666A",
+            "\u2666K",
+            "\u2666B",
+            "\u2666Z"
+          ],
+          "clubs": [
+            "\u2663Z"
+          ],
+          "pattern": "5-4-3-1",
+          "distribution": "5-3-4-1"
+        },
+        "E": {
+          "player": "Ost",
+          "spades": [
+            "\u2660K",
+            "\u26605",
+            "\u26603"
+          ],
+          "hearts": [
+            "\u2665B"
+          ],
+          "diamonds": [
+            "\u2666D",
+            "\u26668",
+            "\u26663"
+          ],
+          "clubs": [
+            "\u2663D",
+            "\u26639",
+            "\u26638",
+            "\u26635",
+            "\u26634",
+            "\u26632"
+          ],
+          "pattern": "6-3-3-1",
+          "distribution": "3-1-3-6"
+        },
+        "S": {
+          "player": "Sued",
+          "spades": [
+            "\u2660D",
+            "\u26607"
+          ],
+          "hearts": [
+            "\u2665Z",
+            "\u26655",
+            "\u26654",
+            "\u26653"
+          ],
+          "diamonds": [
+            "\u26669",
+            "\u26666",
+            "\u26665",
+            "\u26662"
+          ],
+          "clubs": [
+            "\u2663B",
+            "\u26637",
+            "\u26633"
+          ],
+          "pattern": "4-4-3-2",
+          "distribution": "2-4-4-3"
+        },
+        "W": {
+          "player": "West",
+          "spades": [
+            "\u2660B",
+            "\u26606",
+            "\u26604"
+          ],
+          "hearts": [
+            "\u2665D",
+            "\u26659",
+            "\u26658",
+            "\u26657",
+            "\u26652"
+          ],
+          "diamonds": [
+            "\u26667",
+            "\u26664"
+          ],
+          "clubs": [
+            "\u2663A",
+            "\u2663K",
+            "\u26636"
+          ],
+          "pattern": "5-3-3-2",
+          "distribution": "3-5-2-3"
+        }
+      },
+      "double_dummy": {
+        "north_south": {
+          "spades": 4,
+          "hearts": 5,
+          "diamonds": 3,
+          "clubs": 8,
+          "sans": 7
+        },
+        "east_west": {
+          "spades": 9,
+          "hearts": 8,
+          "diamonds": 10,
+          "clubs": 5,
+          "sans": 6
+        }
+      }
+    }
+  ]
+}

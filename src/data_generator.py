@@ -8,6 +8,7 @@ import json
 import os
 import endplay
 from typing import List, Dict, Tuple
+from bidding_conditions_and_situation import BiddingSituation, Contract, PassContract, BidSuit
 
 # Bridge suits and ranks
 CONTRACT_TYPES = ["S", "♠", "♥", "♦", "♣"]
@@ -22,7 +23,7 @@ CARDS_ORDER = {"2": 12, "3": 11, "4": 10, "5": 9, "6": 8, "7": 7,
 # DECK is constructed after the Card class is defined further below
 DECK = []
 
-PLAYERS = ["Nord", "Ost", "Sued", "West"]
+
 
 VULNERABLE = ["keiner", " N--S ", " O--W ", "alle"]
 
@@ -74,94 +75,94 @@ class Suit:
         self.suit = suit
         self.cards = cards
 
-    
+    def get_cards(self) -> List[Card]:
+        return self.cards
+
+    def __len__(self) -> int:
+        return len(self.cards)
+
     def __str__(self) -> str:
         suit_to_str = "".join(card.rank for card in self.cards)
         return f"{self.suit}:{suit_to_str}"
     
 
 class Hand:
-    """definines a Hand"""
+    """Defines a Hand"""
     player: str
     spades: Suit
     hearts: Suit
     diamonds: Suit
     clubs: Suit
 
-    def __init__(self, player, spades, hearts, diamonds, clubs):
+    def __init__(self, player: str, spades: Suit, hearts: Suit, diamonds: Suit, clubs: Suit):
         self.player = player
         self.spades = spades
         self.hearts = hearts
         self.diamonds = diamonds
         self.clubs = clubs
 
-    def get_spades(self) -> List[Card]:
-        """get the spade cards of the hand"""
-        return self.spades.cards
+    def get_spades_cards(self) -> List[Card]:
+        return self.spades.get_cards()
 
-    def get_hearts(self) -> List[Card]:
-        """get the hearts cards of the hand"""
-        return self.hearts.cards
+    def get_hearts_cards(self) -> List[Card]:
+        return self.hearts.get_cards()
 
-    def get_diamonds(self) -> List[Card]:
-        """get the diamonds cards of the hand"""
-        return self.diamonds.cards
+    def get_diamonds_cards(self) -> List[Card]:
+        return self.diamonds.get_cards()
 
-    def get_clubs(self) -> List[Card]:
-        """get the clubs cards of the hand"""
-        return self.clubs.cards
+    def get_clubs_cards(self) -> List[Card]:
+        return self.clubs.get_cards()
 
     def get_colour(self, colour: str) -> Suit:
-        """get a colour subset cards of the hand"""
-        retval = []
+        """Get the suit for the requested colour."""
         if colour == "♣":
-            retval = self.clubs
+            return self.clubs
         if colour == "♦":
-            retval = self.diamonds
+            return self.diamonds
         if colour == "♥":
-            retval = self.hearts
+            return self.hearts
         if colour == "♠":
-            retval = self.spades
-        return retval
+            return self.spades
+        return Suit("", [])
 
-    def get_spades(self) -> str:
-        """get the Pattern of the spades"""
-        return "".join([card.rank for card in cardsort(self.spades.get_cards())])
+    def get_spades_pattern(self) -> str:
+        """Get the pattern string for spades."""
+        return "".join([card.rank for card in cardsort(self.get_spades_cards())])
 
-    def get_hearts(self) -> str:
-        """get the Pattern of the hearts"""
-        return "".join([card.rank for card in cardsort(self.hearts.get_cards())])
+    def get_hearts_pattern(self) -> str:
+        """Get the pattern string for hearts."""
+        return "".join([card.rank for card in cardsort(self.get_hearts_cards())])
 
-    def get_diamonds(self) -> str:
-        """get the Pattern of the diamonds"""
-        return "".join([card.rank for card in cardsort(self.diamonds.get_cards())])
+    def get_diamonds_pattern(self) -> str:
+        """Get the pattern string for diamonds."""
+        return "".join([card.rank for card in cardsort(self.get_diamonds_cards())])
 
-    def get_clubs(self) -> str:
-        """get the Pattern of the clubs"""
-        return "".join([card.rank for card in cardsort(self.clubs.get_cards())])
+    def get_clubs_pattern(self) -> str:
+        """Get the pattern string for clubs."""
+        return "".join([card.rank for card in cardsort(self.get_clubs_cards())])
 
     def get_pattern(self) -> str:
-        """get the Pattern of the hand"""
+        """Get the overall hand shape as a sorted distribution."""
         colour_pattern = [
-            len(self.spades.cards),
-            len(self.hearts.cards),
-            len(self.diamonds.cards),
-            len(self.clubs.cards)]
+            len(self.spades),
+            len(self.hearts),
+            len(self.diamonds),
+            len(self.clubs)]
         colour_pattern.sort(reverse=True)
-
-        return colour_pattern.__str____()
+        return "-".join(str(x) for x in colour_pattern)
 
     def get_distribution(self) -> str:
-        """get the distribution of the hand"""
+        """Get the hand distribution in the order spades, hearts, diamonds, clubs."""
         colour_distribution = [
-            len(self.spades.cards),
-            len(self.hearts.cards),
-            len(self.diamonds.cards),
-            len(self.clubs.cards)]
-        return colour_distribution.__str____()
+            len(self.spades),
+            len(self.hearts),
+            len(self.diamonds),
+            len(self.clubs)]
+        return "-".join(str(x) for x in colour_distribution)
 
     def get_player(self) -> str:
-        """get the player of the hand"""
+        """Get the player name."""
+        return self.player
 
 
 class HandStatistics:
@@ -199,22 +200,22 @@ class HandStatistics:
         self.hand_pattern = hand.get_pattern()
         self.hand_distribution = hand.get_distribution()
         self.spades_points = get_colour_hcp(hand, "♠")
-        self.spades_length = len(self.hand.spades.cards)
-        self.spades_card_pattern = self.hand.get_spades()
+        self.spades_length = len(self.hand.spades)
+        self.spades_card_pattern = self.hand.get_spades_pattern()
         self.spades_tricks = card_pattern_to_tricks(self.spades_card_pattern)
         self.spades_loosers = card_pattern_to_loosers(self.spades_card_pattern)
         self.hearts_points = get_colour_hcp(hand, "♥")
-        self.hearts_length = len(self.hand.hearts.cards)
-        self.hearts_card_pattern = self.hand.get_hearts()
+        self.hearts_length = len(self.hand.hearts)
+        self.hearts_card_pattern = self.hand.get_hearts_pattern()
         self.hearts_tricks = card_pattern_to_tricks(self.hearts_card_pattern)
         self.hearts_loosers = card_pattern_to_loosers(self.hearts_card_pattern)
         self.diamonds_points = get_colour_hcp(hand, "♦")
-        self.diamonds_length = len(self.hand.diamonds.cards)
+        self.diamonds_length = len(self.hand.diamonds)
         self.diamonds_card_pattern = self.hand.get_diamonds_pattern()
         self.diamonds_tricks = card_pattern_to_tricks(self.diamonds_card_pattern)
         self.diamonds_loosers = card_pattern_to_loosers(self.diamonds_card_pattern)
         self.clubs_points = get_colour_hcp(hand, "♣")
-        self.clubs_length = len(self.hand.clubs.cards)
+        self.clubs_length = len(self.hand.clubs)
         self.clubs_card_pattern = self.hand.get_clubs_pattern()
         self.clubs_tricks = card_pattern_to_tricks(self.clubs_card_pattern)
         self.clubs_loosers = card_pattern_to_loosers(self.clubs_card_pattern)
@@ -307,8 +308,8 @@ class Board:
         - `east_west_clubs_winning_tricks`
         - `east_west_sans_winning_tricks`
 
-        The method tolerates our internal rank encoding and maps it to the
-        standard PBN rank letters before creating an `endplay.Deal`.
+        After the table is computed, the method also evaluates the best
+        contract for either side based on usual bridge scoring.
         """
         # rank mapping from project ranks to PBN ranks
         rank_map = {
@@ -387,6 +388,91 @@ class Board:
         self.east_west_clubs_winning_tricks = max(table[cl_i][e_i], table[cl_i][w_i])
         self.east_west_sans_winning_tricks = max(table[nt_i][e_i], table[nt_i][w_i])
 
+        self.best_contract = self.find_best_contract()
+
+    def get_vulnerability(self, side: str) -> bool:
+        """Return whether the given side is vulnerable on this board."""
+        if side == "NS":
+            return self.vulnerable_sides.strip() in {"N--S", "alle"}
+        if side == "EW":
+            return self.vulnerable_sides.strip() in {"O--W", "alle"}
+        return False
+
+    def get_dd_tricks(self, side: str, strain: str) -> int:
+        """Return the double-dummy tricks won by the given side in a strain."""
+        key = f"{side.lower()}_{strain.lower()}_winning_tricks"
+        key = key.replace("_nt_", "_sans_")
+        return getattr(self, key, 0)
+
+    def contract_score(self, level: int, strain: str, tricks_won: int, vulnerable: bool) -> int:
+        """Compute a simple bridge score for a contract and result.
+
+        All failing contracts are scored as doubled down contracts when finding
+        the best contract.
+        """
+        target = 6 + level
+        if tricks_won < target:
+            undertricks = target - tricks_won
+            if vulnerable:
+                if undertricks == 1:
+                    penalty = 200
+                else:
+                    penalty = 200 + (undertricks - 1) * 300
+            else:
+                if undertricks == 1:
+                    penalty = 100
+                else:
+                    penalty = 100 + (undertricks - 1) * 200
+            return -penalty
+
+        made_tricks = tricks_won - target
+        if strain == "N":
+            trick_value = 40 if level >= 1 else 0
+            trick_value += 30 * max(level - 1, 0)
+        elif strain in {"H", "S"}:
+            trick_value = 30
+        else:
+            trick_value = 20
+
+        contract_points = level * trick_value
+        overtrick_points = made_tricks * trick_value
+        bonus = 300 if contract_points >= 100 else 50
+        return contract_points + overtrick_points + bonus
+
+    def format_contract(self, level: int, strain: str, side: str, tricks_won: int) -> str:
+        """Format a contract string with side label and result details."""
+        side_label = "NS" if side == "NS" else "EW"
+        target = 6 + level
+        if tricks_won < target:
+            undertricks = target - tricks_won
+            score = self.contract_score(level, strain, tricks_won, self.get_vulnerability(side))
+            return f"{level}{strain} x {side_label} -{undertricks} / {score}"
+
+        made_tricks = tricks_won - target
+        score = self.contract_score(level, strain, tricks_won, self.get_vulnerability(side))
+        return f"{level}{strain} {side_label} +{made_tricks} / {score}"
+
+    def find_best_contract(self) -> str:
+        """Find the best contract by bridge score for NS or EW."""
+        best_score = -10_000
+        best_contract = None
+
+        for level in range(1, 8):
+            for strain in ["C", "D", "H", "S", "N"]:
+                for side in ["NS", "EW"]:
+                    tricks_won = self.get_dd_tricks(side, strain)
+                    score = self.contract_score(
+                        level,
+                        strain,
+                        tricks_won,
+                        self.get_vulnerability(side),
+                    )
+                    if score > best_score:
+                        best_score = score
+                        best_contract = self.format_contract(level, strain, side, tricks_won)
+
+        return best_contract
+
     def map_board_to_endplay(self) -> Dict[str, Hand]:
         """Map the board to the endplay representation."""
         return {
@@ -403,8 +489,8 @@ def cardsort(cards: List[Card]) -> List[Card]:
     return sorted(cards, key=lambda c: COLOUR_ORDER.get(c.suit, float('inf')) * 100 + CARDS_ORDER.get(c.rank, float('inf')))
 
 
-def pick_up_hand(player: str, cards: List[Card] ) -> Hand:
-    """order cards to an hand"""
+def pick_up_hand(player: str, cards: List[Card]) -> Hand:
+    """Order cards into a hand with Suit objects."""
     spades = []
     hearts = []
     diamonds = []
@@ -412,21 +498,26 @@ def pick_up_hand(player: str, cards: List[Card] ) -> Hand:
     for card in cards:
         if card.suit == "♣":
             clubs.append(card)
-        if card.suit == "♦":
+        elif card.suit == "♦":
             diamonds.append(card)
-        if card.suit == "♥":
+        elif card.suit == "♥":
             hearts.append(card)
-        if card.suit == "♠":
+        elif card.suit == "♠":
             spades.append(card)
-    return Hand(player, cardsort(spades), cardsort(hearts), cardsort(diamonds),
-                cardsort(clubs))
+    return Hand(
+        player,
+        Suit("♠", cardsort(spades)),
+        Suit("♥", cardsort(hearts)),
+        Suit("♦", cardsort(diamonds)),
+        Suit("♣", cardsort(clubs)),
+    )
 
 
 def deal_hands(board_nr: int) -> Board:
     """Deal hands to players."""
     dealer = PLAYERS[board_nr % 4]
     vulnerable_sides = VULNERABLE[board_nr % 4]
-    distribute_deck = DECK.copy
+    distribute_deck = DECK.copy()
     random.shuffle(distribute_deck)
 
     hands = [[] for _ in PLAYERS]
@@ -442,6 +533,329 @@ def deal_hands(board_nr: int) -> Board:
         pick_up_hand(PLAYERS[1], hands[1]),
         pick_up_hand(PLAYERS[2], hands[2]),
         pick_up_hand(PLAYERS[3], hands[3]))
+
+
+def generate_hand() -> Hand:
+    """Generate a single random hand from a fresh deal."""
+    board = deal_hands(random.randint(0, 10000))
+    return random.choice([
+        board.north_hand,
+        board.east_hand,
+        board.south_hand,
+        board.west_hand
+    ])
+
+
+def hand_to_text(hand: Hand) -> str:
+    """Convert a hand to a compact textual representation."""
+    return " ".join([
+        f"♠:{''.join(card.rank for card in cardsort(hand.get_spades_cards()))}",
+        f"♥:{''.join(card.rank for card in cardsort(hand.get_hearts_cards()))}",
+        f"♦:{''.join(card.rank for card in cardsort(hand.get_diamonds_cards()))}",
+        f"♣:{''.join(card.rank for card in cardsort(hand.get_clubs_cards()))}"
+    ])
+
+
+def suit_to_list(suit: Suit) -> List[str]:
+    return [str(card) for card in cardsort(suit.get_cards())]
+
+
+def hand_to_dict(hand: Hand) -> Dict[str, object]:
+    return {
+        "player": hand.player,
+        "spades": suit_to_list(hand.spades),
+        "hearts": suit_to_list(hand.hearts),
+        "diamonds": suit_to_list(hand.diamonds),
+        "clubs": suit_to_list(hand.clubs),
+        "pattern": hand.get_pattern(),
+        "distribution": hand.get_distribution(),
+    }
+
+
+def board_to_dict(board: Board) -> Dict[str, object]:
+    return {
+        "board_nr": board.board_nr,
+        "dealer": board.dealer,
+        "vulnerable_sides": board.vulnerable_sides,
+        "best_contract": board.best_contract,
+        "hands": {
+            "N": hand_to_dict(board.north_hand),
+            "E": hand_to_dict(board.east_hand),
+            "S": hand_to_dict(board.south_hand),
+            "W": hand_to_dict(board.west_hand),
+        },
+        "double_dummy": {
+            "north_south": {
+                "spades": getattr(board, "north_south_spades_winning_tricks", None),
+                "hearts": getattr(board, "north_south_hearts_winning_tricks", None),
+                "diamonds": getattr(board, "north_south_diamonds_winning_tricks", None),
+                "clubs": getattr(board, "north_south_clubs_winning_tricks", None),
+                "sans": getattr(board, "north_south_sans_winning_tricks", None),
+            },
+            "east_west": {
+                "spades": getattr(board, "east_west_spades_winning_tricks", None),
+                "hearts": getattr(board, "east_west_hearts_winning_tricks", None),
+                "diamonds": getattr(board, "east_west_diamonds_winning_tricks", None),
+                "clubs": getattr(board, "east_west_clubs_winning_tricks", None),
+                "sans": getattr(board, "east_west_sans_winning_tricks", None),
+            },
+        },
+    }
+
+
+def board_to_text(board: Board) -> str:
+    """Create a BERT-friendly text representation for a board."""
+    def suit_str_of(hand: Hand, suit: str) -> str:
+        cards = cardsort(hand.get_colour(suit).get_cards())
+        return "".join(card.rank for card in cards)
+
+    parts = [
+        f"Board {board.board_nr}",
+        f"Dealer {board.dealer}",
+        f"Vulnerable {board.vulnerable_sides}",
+    ]
+
+    for player, hand in [
+        ("N", board.north_hand),
+        ("E", board.east_hand),
+        ("S", board.south_hand),
+        ("W", board.west_hand),
+    ]:
+        parts.append(
+            f"{player}: ♠{suit_str_of(hand, '♠')} ♥{suit_str_of(hand, '♥')} ♦{suit_str_of(hand, '♦')} ♣{suit_str_of(hand, '♣')}"
+        )
+
+    parts.append(
+        f"DD NS: S{getattr(board, 'north_south_spades_winning_tricks', '?')} "
+        f"H{getattr(board, 'north_south_hearts_winning_tricks', '?')} "
+        f"D{getattr(board, 'north_south_diamonds_winning_tricks', '?')} "
+        f"C{getattr(board, 'north_south_clubs_winning_tricks', '?')} "
+        f"N{getattr(board, 'north_south_sans_winning_tricks', '?')}"
+    )
+    parts.append(
+        f"DD EW: S{getattr(board, 'east_west_spades_winning_tricks', '?')} "
+        f"H{getattr(board, 'east_west_hearts_winning_tricks', '?')} "
+        f"D{getattr(board, 'east_west_diamonds_winning_tricks', '?')} "
+        f"C{getattr(board, 'east_west_clubs_winning_tricks', '?')} "
+        f"N{getattr(board, 'east_west_sans_winning_tricks', '?')}"
+    )
+
+    return " | ".join(parts)
+
+
+def is_forum_d_1nt_open(hand: Hand) -> bool:
+    """Return true when the hand qualifies for Forum-D 1NT opening."""
+    pattern = hand.get_pattern()
+    if pattern not in {"4-3-3-3", "4-4-3-2", "5-3-3-2"}:
+        return False
+
+    if pattern == "5-3-3-2":
+        # In Forum D, a 5-card suit must not be a major suit for the 1NT opening.
+        suit_lengths = {
+            "♠": len(hand.spades),
+            "♥": len(hand.hearts),
+            "♦": len(hand.diamonds),
+            "♣": len(hand.clubs),
+        }
+        long_suit = max(suit_lengths, key=suit_lengths.get)
+        if long_suit in {"♠", "♥"}:
+            return False
+
+    return 15 <= get_hcp_total(hand) <= 17
+
+
+def is_forum_d_major_open(hand: Hand) -> bool:
+    """Return true when the hand qualifies for Forum-D 1H/1S opening."""
+    hcp = get_hcp_total(hand)
+    if not (12 <= hcp <= 19):
+        return False
+
+    if len(hand.hearts) >= 5:
+        return True
+    if len(hand.spades) >= 5:
+        return True
+    return False
+
+
+def major_one_open_suit(hand: Hand) -> str:
+    """Return the major suit for a Forum-D 1H/1S opening, if any."""
+    if len(hand.spades) >= 5:
+        return "S"
+    if len(hand.hearts) >= 5:
+        return "H"
+    return ""
+
+
+def get_ew_opening_sequence(board: Board) -> List[tuple[str, str, Hand]]:
+    """Return the EW opening candidates and pass conditions in bidding order."""
+    if board.dealer in {"Ost", "East"}:
+        return [("Ost", "keine vorherigen Pässe", board.east_hand)]
+    if board.dealer in {"West", "W"}:
+        return [("West", "keine vorherigen Pässe", board.west_hand)]
+    if board.dealer in {"Nord", "North"}:
+        return [
+            ("Ost", "nach Nord passt", board.east_hand),
+            ("West", "nach Nord und Ost passen", board.west_hand),
+        ]
+    if board.dealer in {"Sued", "South"}:
+        return [
+            ("West", "nach Süd passt", board.west_hand),
+            ("Ost", "nach Süd und West passen", board.east_hand),
+        ]
+    return []
+
+
+def get_bid_order(board: Board) -> List[str]:
+    """Return the order of players for the first bidding round starting with dealer."""
+    if board.dealer in {"Ost", "East"}:
+        return ["Ost", "West", "Nord", "Sued"]
+    if board.dealer in {"West", "W"}:
+        return ["West", "Nord", "Ost", "Sued"]
+    if board.dealer in {"Nord", "North"}:
+        return ["Nord", "Ost", "West", "Sued"]
+    if board.dealer in {"Sued", "South"}:
+        return ["Sued", "West", "Nord", "Ost"]
+    return ["Ost", "West", "Nord", "Sued"]
+
+
+def position_label(index: int) -> str:
+    return f"{index + 1}. Position"
+
+
+def contract_to_text(contract: Contract) -> str:
+    if contract.is_pass:
+        return "Pass"
+    suit_text = "NT" if contract.suit == BidSuit.NOTRUMP else contract.suit.value
+    return f"{contract.level}{suit_text}"
+
+
+def format_bid_history(situation: BiddingSituation) -> str:
+    return "; ".join(
+        f"{bid.position} {bid.player}: {contract_to_text(bid.contract)}"
+        for bid in situation.bids
+    )
+
+
+def complete_first_round_with_passes(situation: BiddingSituation) -> None:
+    while len(situation.bids) < 4:
+        situation.record_bid(PassContract())
+
+
+def forum_d_ew_opening_description(board: Board) -> str:
+    """Describe the ungestörte Forum D opening for EW using bidding state."""
+    sequence = get_ew_opening_sequence(board)
+    if not sequence:
+        return "Weder Ost noch West ist gleich am Zug, daher keine ungestörte Forum D EW-Eröffnung."
+
+    situation = BiddingSituation(board.board_nr, board.dealer)
+
+    for opener, condition, opener_hand in sequence:
+        while situation.current_player != opener:
+            situation.record_bid(PassContract())
+
+        hcp = get_hcp_total(opener_hand)
+        pattern = opener_hand.get_pattern()
+
+        if is_forum_d_1nt_open(opener_hand):
+            situation.record_bid(Contract(1, BidSuit.NOTRUMP))
+            complete_first_round_with_passes(situation)
+            return (
+                f"{opener} darf eröffnen, {condition}. "
+                f"{opener} eröffnet 1NT mit ausgeglichener Hand ({pattern}) und {hcp} Figurenpunkten. "
+                f"{rules_partner_text(opener)} hat noch nicht gereizt. "
+                f"Bietsequenz: {format_bid_history(situation)}"
+            )
+
+        if is_forum_d_major_open(opener_hand):
+            suit = major_one_open_suit(opener_hand)
+            bid_suit = BidSuit.HEARTS if suit == "H" else BidSuit.SPADES
+            situation.record_bid(Contract(1, bid_suit))
+            complete_first_round_with_passes(situation)
+            return (
+                f"{opener} darf eröffnen, {condition}. "
+                f"{opener} eröffnet 1{suit} mit mindestens 5 Karten in {suit} und {hcp} Figurenpunkten. "
+                f"{rules_partner_text(opener)} hat noch nicht gereizt. "
+                f"Bietsequenz: {format_bid_history(situation)}"
+            )
+
+        situation.record_bid(PassContract())
+
+    complete_first_round_with_passes(situation)
+    return (
+        "Die ungestörte EW-Reizung endet mit vier aufeinanderfolgenden Pässen."
+        f" Bietsequenz: {format_bid_history(situation)}."
+        " Der Kontrakt ist Pass mit Score 0."
+    )
+
+
+def rules_partner_text(player: str) -> str:
+    return "West" if player == "Ost" else "Ost"
+
+
+def board_to_bert_example(board: Board) -> Dict[str, object]:
+    """Build a single BERT dataset example from a board."""
+    return {
+        "id": f"board_{board.board_nr}",
+        "input_text": board_to_text(board),
+        "forum_d_ew_text": forum_d_ew_opening_description(board),
+        "board": board_to_dict(board),
+    }
+
+
+def board_to_forum_d_bert_example(board: Board) -> Dict[str, object]:
+    """Build a BERT example focused on Forum D EW opening description."""
+    return {
+        "id": f"board_{board.board_nr}_forum_d",
+        "input_text": forum_d_ew_opening_description(board),
+        "board": board_to_dict(board),
+    }
+
+
+def generate_bert_dataset(turnier: "Turnier", output_path: str) -> List[Dict[str, object]]:
+    """Generate a BERT-friendly JSON dataset from a Turnier."""
+    examples = [board_to_bert_example(board) for board in turnier.boards]
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(examples, f, indent=2, ensure_ascii=False)
+    return examples
+
+
+def generate_forum_d_bert_dataset(turnier: "Turnier", output_path: str) -> List[Dict[str, object]]:
+    """Generate a second BERT dataset with Forum D EW opening descriptions."""
+    examples = [board_to_forum_d_bert_example(board) for board in turnier.boards]
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(examples, f, indent=2, ensure_ascii=False)
+    return examples
+
+
+class Turnier:
+    """A collection of boards for BERT dataset generation."""
+
+    def __init__(self, name: str, boards: List[Board]):
+        self.name = name
+        self.boards = boards
+
+    @classmethod
+    def generate(cls, num_boards: int = 10, start_board_nr: int = 0) -> "Turnier":
+        boards = []
+        for index in range(start_board_nr, start_board_nr + num_boards):
+            board = deal_hands(index)
+            board.compute_double_dummy()
+            boards.append(board)
+        return cls("Turnier", boards)
+
+    def to_dict(self) -> Dict[str, object]:
+        return {
+            "name": self.name,
+            "boards": [board_to_dict(board) for board in self.boards],
+        }
+
+    def save(self, file_path: str) -> str:
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(self.to_dict(), f, indent=2)
+        return file_path
 
 
 def get_hcp_total(hand: Hand) -> int:
@@ -573,7 +987,7 @@ def generate_training_example() -> Dict:
     return {
         "input": input_text,
         "target": contract,
-        "hand": hand,
+        "hand": hand_to_dict(hand),
         "bidding_sequence": sequence,
     }
 
@@ -593,4 +1007,13 @@ def generate_dataset(num_samples: int, output_path: str):
 if __name__ == "__main__":
     os.makedirs("data", exist_ok=True)
     generate_dataset(10000, "data/bridge_bidding_synthetic.json")
+
+    turnier = Turnier.generate(num_boards=10, start_board_nr=0)
+    turnier.save("data/turnier.json")
+    generate_bert_dataset(turnier, "data/turnier_bert.json")
+    generate_forum_d_bert_dataset(turnier, "data/turnier_forum_d_bert.json")
+
     print("Generated 10000 synthetic bridge bidding examples")
+    print("Generated Turnier dataset with 10 boards at data/turnier.json")
+    print("Generated BERT-ready dataset with 10 boards at data/turnier_bert.json")
+    print("Generated Forum D EW dataset with 10 boards at data/turnier_forum_d_bert.json")
