@@ -8,7 +8,7 @@ import json
 import os
 import endplay
 from typing import List, Dict, Tuple
-from bidding_conditions_and_situation import BiddingSituation, Contract, PassContract, BidSuit
+from bidding_conditions_and_situation import PLAYER_ORDER, Players, BiddingSituation, Contract, PassContract, BidSuit
 
 # Bridge suits and ranks
 CONTRACT_TYPES = ["S", "♠", "♥", "♦", "♣"]
@@ -88,13 +88,13 @@ class Suit:
 
 class Hand:
     """Defines a Hand"""
-    player: str
+    player: Players
     spades: Suit
     hearts: Suit
     diamonds: Suit
     clubs: Suit
 
-    def __init__(self, player: str, spades: Suit, hearts: Suit, diamonds: Suit, clubs: Suit):
+    def __init__(self, player: Players, spades: Suit, hearts: Suit, diamonds: Suit, clubs: Suit):
         self.player = player
         self.spades = spades
         self.hearts = hearts
@@ -160,7 +160,7 @@ class Hand:
             len(self.clubs)]
         return "-".join(str(x) for x in colour_distribution)
 
-    def get_player(self) -> str:
+    def get_player(self) -> Players:
         """Get the player name."""
         return self.player
 
@@ -272,23 +272,23 @@ class Board:
 
     def get_dealer(self) -> int:
         """get the dealer"""
-        return PLAYERS.index(self.dealer) + 1
+        return PLAYER_ORDER.index(self.dealer) + 1
 
     def get_north_position(self) -> int:
         """get the north position in bidding sequence"""
-        return PLAYERS.index("North") + PLAYERS.index(self.dealer) % 4 + 1
+        return PLAYER_ORDER.index(Players.NORD) + PLAYER_ORDER.index(self.dealer) % 4 + 1
 
     def get_west_position(self) -> int:
         """get the west position in bidding sequence"""
-        return PLAYERS.index("West") + PLAYERS.index(self.dealer) % 4 + 1
+        return PLAYER_ORDER.index(Players.WEST) + PLAYER_ORDER.index(self.dealer) % 4 + 1
 
     def get_south_position(self) -> int:
         """get the south position in bidding sequence"""
-        return PLAYERS.index("South") + PLAYERS.index(self.dealer) % 4 + 1
+        return PLAYER_ORDER.index(Players.SUED) + PLAYER_ORDER.index(self.dealer) % 4 + 1
 
     def get_east_position(self) -> int:
         """get the east position in bidding sequence"""
-        return PLAYERS.index("East") + PLAYERS.index(self.dealer) % 4 + 1
+        return PLAYER_ORDER.index(Players.OST) + PLAYER_ORDER.index(self.dealer) % 4 + 1
 
     def compute_double_dummy(self) -> None:
         """Run a double-dummy analysis with endplay and set board trick attributes.
@@ -515,13 +515,13 @@ def pick_up_hand(player: str, cards: List[Card]) -> Hand:
 
 def deal_hands(board_nr: int) -> Board:
     """Deal hands to players."""
-    dealer = PLAYERS[board_nr % 4]
+    dealer = PLAYER_ORDER[board_nr % 4]
     vulnerable_sides = VULNERABLE[board_nr % 4]
     distribute_deck = DECK.copy()
     random.shuffle(distribute_deck)
 
-    hands = [[] for _ in PLAYERS]
-    deal_index = PLAYERS.index(dealer)
+    hands = [[] for _ in PLAYER_ORDER]
+    deal_index = PLAYER_ORDER.index(dealer)
     for card in distribute_deck:
         hands[deal_index].append(card)
         deal_index = (deal_index + 1) % 4
@@ -529,10 +529,10 @@ def deal_hands(board_nr: int) -> Board:
         board_nr,
         dealer,
         vulnerable_sides,
-        pick_up_hand(PLAYERS[0], hands[0]),
-        pick_up_hand(PLAYERS[1], hands[1]),
-        pick_up_hand(PLAYERS[2], hands[2]),
-        pick_up_hand(PLAYERS[3], hands[3]))
+        pick_up_hand(PLAYER_ORDER[0], hands[0]),
+        pick_up_hand(PLAYER_ORDER[1], hands[1]),
+        pick_up_hand(PLAYER_ORDER[2], hands[2]),
+        pick_up_hand(PLAYER_ORDER[3], hands[3]))
 
 
 def generate_hand() -> Hand:
@@ -888,17 +888,17 @@ def get_colour_hcp(hand: Hand, colour: str) -> int:
 
 def get_partner(player: str) -> str:
     """Get the partner of a player."""
-    return PLAYERS[(PLAYERS.index(player) + 2) % 4]
+    return PLAYER_ORDER[(PLAYER_ORDER.index(player) + 2) % 4]
 
 
 def get_lefthand_opponent(player: str) -> str:
     """Get the left hand player."""
-    return PLAYERS[PLAYERS.index(player) + 1]
+    return PLAYER_ORDER[PLAYER_ORDER.index(player) + 1]
 
 
 def get_righthand_opponent(player: str) -> str:
     """Get the right hand player."""
-    return PLAYERS[PLAYERS.index(player) - 1]
+    return PLAYER_ORDER[PLAYER_ORDER.index(player) - 1]
 
 
 def colour_to_str(hand: Hand, suit: str) -> str:
@@ -950,7 +950,7 @@ def card_pattern_to_loosers(card_pattern: str) -> int:
 def generate_bidding_sequence() -> Tuple[List[str], str]:
     """Generate a random bidding sequence and final contract."""
     sequence = []
-    dealer = random.choice(["N", "E", "S", "W"])
+    dealer = random.choice(PLAYER_ORDER)
 
     # Generate 0-4 opening bids
     num_bids = random.randint(0, 4)

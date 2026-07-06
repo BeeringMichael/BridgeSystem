@@ -5,6 +5,8 @@ from typing import List, Optional, Tuple
 
 class BidSuit(Enum):
     NONE = "p"
+    DOUBLE = "x"
+    REDOUBLE = "xx"
     CLUBS = "♣"
     DIAMONDS = "♦"
     HEARTS = "♥"
@@ -22,6 +24,8 @@ class Players(Enum):
     SUED = "Sued"
     WEST = "West"
 
+PLAYER_ORDER = [Players.NORD, Players.OST, Players.SUED, Players.WEST]
+
 class Position(Enum):
     one = "1. Position"
     two = "2. Position" 
@@ -30,16 +34,34 @@ class Position(Enum):
 
 class Vulnerable(Enum):
     NONE = "keiner"
-    NS = " N--S "
-    OW = " O--W "
+    NS = " NS "
+    OW = " OW "
     ALL = "alle"
 
+class ColorLength(Enum):
+    noInfo = "x"
+    0 = "0"
+    1 = "1"
+    2 = "2"
+    3 = "3"
+    4 = "4"
+    5 = "5"
+    6 = "6"
+    7 = "7"
+    8 = "8"
+    9 = "9"
+    10 = "10"
+    11 = "11"
+    12 = "12"
+    13 = "13"
+
 class BiddingPlayer:
-    def __init__(self, player: Players, position: Position, vulnerable_axis: Axis):
+    def __init__(self, player: Players, position: Position, vulnerable_axis: Axis, global_vulnerable: Vulnerable):
         self.player = player
         self.position = position
+        self.global_vulnerable = global_vulnerable
         self.axis = Axis.NS if player in {Players.NORD, Players.SUED} else Axis.OW
-        self.is_vulnerable = True if vulnerable_axis == self.axis else False
+        self.is_vulnerable = True if vulnerable_axis == self.axis or global_vulnerable  == Vulnerable.ALL else False
 
 BID_ORDER = [
     BidSuit.CLUBS,
@@ -70,43 +92,75 @@ class Contract:
     @property
     def is_pass(self) -> bool:
         return True if self.suit == BidSuit.NONE else False
+    def is_double(self) -> bool:
+        return True if self.suit == BidSuit.DOUBLE else False
+    def is_redouble(self) -> bool:
+        return True if self.suit == BidSuit.REDOUBLE else False
     def is_doubled(self) -> bool:
         return self.doubled 
     def is_redoubled(self) -> bool:
         return self.redoubled
     
-    def is_bidaable(self, other: "Contract") -> bool:
+    def is_bidable(self, other: "Contract") -> bool:
         if self.is_pass:
             return True
-        if self.is_doubled:
+        if self.is_double:
             return True if (self.axis != other.axis) and other.suit in BID_ORDER else True
-        if self.is_redoubled: 
-            return True if other.is_doubled and self.axis != other.axis else False
+        if self.is_redouble: 
+            return True if other.is_doubled and self.axis == other.axis else False
         if self.level < other.level:
             return False
         if self.level == other.level:
             return False if BID_ORDER.index(self.suit) <= BID_ORDER.index(other.suit) else True
-        return True        
+        return True    
 
+    def double_contract(self,  other: "Contract") -> "Contract":
+        """Double setzt auf bestehendem Gebot den double-Flag"""
+        if self.is_double and self.is_bidable(other):
+         return Contract(other.axis, other.level, other.suit, doubled=True)
+        return other    
+ 
+    def redouble_contract(self,  other: "Contract") -> "Contract":
+        """ReDouble setzt auf bestehendem Gebot mit double-Flag einen redouble-Flag"""
+        if self.is_redouble and self.is_bidable(other):
+         return Contract(other.axis, other.level, other.suit, doubled=True, redoubled=True)
+        return other
 
 class Bid:
     player: BiddingPlayer
     contract: Contract
+    convention_name: Optional[str] = None
+    minimum_points: Optional[int] = None
+    maximum_points: Optional[int] = None
+    spade_length: ColorLength
+    heart_length: ColorLength
+    diamond_length: ColorLength
+    club_length: ColorLength
+    is_asking_for_colour: Optional[BidSuit] = None
     is_pass: bool
     is_forcing: bool
     is_game_invitational: bool
     is_slam_invitational: bool
     is_game_forcing: bool
     is_forced: bool
+    is_invited: bool
     is_game_forced: bool
     is_artificial: bool
     is_asking_for_information: bool
     is_descriptive: bool
     is_asking_for_cardcontrol: bool
+    is_firstround_cotrol: bool
+    is_secondround_control: bool
     is_shortage: bool
+    is_asking_for_shortage: bool
+    is_cardfit_showing: bool
+    is_asking_for_cardfit: bool
     is_length_increasing: bool
     is_suit_preference: bool
     is_nutral: bool
+    is_supporting: bool
+    is_endcontract_proposal: bool
+    is_relay: bool
 
     def __str__(self) -> str:
         return f"{self.position} {self.player}: {self.contract}"
@@ -115,7 +169,10 @@ class Bid:
 @dataclass
 class BiddingRules:
     board_id: int
-    dealer: str
+    dealer: Players
+    akt_player: Players = dealer
+    round: int = 1
+    last_bids: List[Contract]= None
     seat_order: List[str] = field(default_factory=lambda: ["Nord", "Ost", "Sued", "West"])
 
     def __post_init__(self):
@@ -145,28 +202,64 @@ class BiddingRules:
         return Axis.OW
 
     @staticmethod
-    def all_contracts() -> List[Contract]:
-        contracts: List[Contract] = []
+    def biddingbox_start(self) -> List[Contract]:
+        contracts: List[Contract] = [Contract(
+            self.axis_of(self.akt_player), self.round, BidSuit.NONE)]
         for level in range(1, 8):
             for suit in BID_ORDER:
                 contracts.append(Contract(level, suit))
         return contracts
 
     @staticmethod
-    def next_contracts(last: Optional[Contract]) -> List[Contract]:
-        if last is None or last.is_pass:
-            return BiddingRules.all_contracts()
-        return [c for c in BiddingRules.all_contracts() if c.compare_to(last) > 0]
+    def biddingbox_akt(self) -> List[Contract]:
+        # vorbelegen mit pass, dann die Gebote aufsammeln bis das letzte Gebot um double und redoubles ergänzt ist
+        pass_cnt = 0
+        last = Contract(self.axis_of(self.akt_player), self.round, BidSuit.NONE)
+        for bid in self.last_bids:
+            if bid.is_pass:
+                last = last
+                pass_cnt +=1
+            if bid.is_double:
+                last = last.double_contract(last)
+                pass_cnt = 0
+            if bid.is_redouble:
+                last = last.redouble_contract(last)
+                pass_cnt = 0
+            if not(bid.is_pass or bid.is_double or bid.is_redouble):
+                last = bid
+                pass_cnt = 0
+            
+        # nur pass    
+        if last.is_pass and (
+            (self.round == 1 and pass_cnt < 4) or 
+            (self.round > 1 and pass_cnt < 3)):
+            return BiddingRules.biddingbox_start()
+        if last.is_pass and (
+            (self.round == 1 and pass_cnt == 4) or 
+            (self.round > 1 and pass_cnt == 3)):
+            return []
 
+        contracts: List[Contract] = []
+        for c in BiddingRules.biddingbox_start():
+                if c.is_bidable(last) == True:
+                    contracts.append(c)
+        if not last.is_doubled and last.axis != self.axis_of(self.akt_player):
+            contracts.append(Contract(
+                self.axis_of(self.akt_player), self.round, BidSuit.DOUBLE))
+        if last.is_double and not last.is_redoubled and last.axis == self.axis_of(self.akt_player):
+            contracts.append(Contract(
+                self.axis_of(self.akt_player), self.round, BidSuit.REDOUBLE))
+        return contracts
 
 @dataclass
 class BiddingSituation:
     board_id: int
-    dealer: str
+    dealer: Players
+    rules: BiddingRules = field(init=False) 
     seat_order: List[str] = field(default_factory=lambda: ["Nord", "Ost", "Sued", "West"])
     bids: List[Bid] = field(default_factory=list)
     consecutive_passes: int = 0
-    opener: Optional[str] = None
+    opener: Optional[Players] = None
 
     def __post_init__(self):
         self.rules = BiddingRules(self.board_id, self.dealer, self.seat_order)
